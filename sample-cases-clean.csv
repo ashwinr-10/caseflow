@@ -1,0 +1,6 @@
+case_id,applicant_name,dob,email,phone,category,priority
+C-2001,Alice Johnson,1990-03-14,alice.johnson@example.com,+12025550123,TAX,HIGH
+C-2002,Bob Smith,1985-12-02,bob.smith@example.com,+12025550124,LICENSE,MEDIUM
+C-2003,Carol White,1979-05-22,carol.white@example.com,+12025550125,PERMIT,LOW
+C-2004,David Brown,1992-08-15,david.brown@example.com,+12025550126,TAX,HIGH
+

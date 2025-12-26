@@ -1,0 +1,356 @@
+{
+  "info": {
+    "name": "CaseFlow API",
+    "_postman_id": "b7c6c3fa-1234-4c3d-9d11-demo-collection",
+    "description": "CaseFlow backend REST API collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{API_URL}}/api/health",
+          "host": ["{{API_URL}}"],
+          "path": ["api", "health"]
+        },
+        "description": "Health check endpoint"
+      }
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Password123!\",\n  \"name\": \"Admin User\",\n  \"role\": \"ADMIN\"\n}"
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/auth/register",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/auth/login",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{REFRESH_TOKEN}}\"\n}"
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/auth/refresh",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "auth", "refresh"]
+            }
+          }
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/auth/me",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "auth", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Import",
+      "item": [
+        {
+          "name": "Upload CSV",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/import/upload",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "import", "upload"]
+            }
+          }
+        },
+        {
+          "name": "Batch Create Cases",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fileName\": \"sample-cases.csv\",\n  \"rows\": [\n    {\n      \"rowIndex\": 2,\n      \"data\": {\n        \"case_id\": \"C-1001\",\n        \"applicant_name\": \"Asha Verma\",\n        \"dob\": \"1990-03-14\",\n        \"email\": \"asha.verma@example.com\",\n        \"phone\": \"+919876543210\",\n        \"category\": \"TAX\",\n        \"priority\": \"HIGH\"\n      },\n      \"errors\": [],\n      \"isValid\": true\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/import/batch",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "import", "batch"]
+            }
+          }
+        },
+        {
+          "name": "Get Import Jobs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/import",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "import"]
+            }
+          }
+        },
+        {
+          "name": "Get Import Job Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/import/:id",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "import", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{IMPORT_JOB_ID}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cases",
+      "item": [
+        {
+          "name": "List Cases",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/cases?limit=20&status=PENDING&category=TAX",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "cases"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "status",
+                  "value": "PENDING"
+                },
+                {
+                  "key": "category",
+                  "value": "TAX"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Case by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/cases/:id",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "cases", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{CASE_ID}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Case",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"IN_PROGRESS\",\n  \"priority\": \"HIGH\"\n}"
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/cases/:id",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "cases", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{CASE_ID}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Note to Case",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Follow-up note for this case\"\n}"
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/cases/:id/notes",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "cases", ":id", "notes"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{CASE_ID}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "API_URL",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "TOKEN",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "REFRESH_TOKEN",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "CASE_ID",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "IMPORT_JOB_ID",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
+
+
+
